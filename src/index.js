@@ -14,7 +14,6 @@ app.use('', ProfilesRoutes)
 
 
 
-// Запуск сервера
 const startApp = () => {
   const port = process.env.PORT ?? 3000
   sequelize.sync()

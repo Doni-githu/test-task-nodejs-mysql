@@ -1,6 +1,10 @@
 const User = require('../models/user')
 const { decode } = require('../utils/jwt')
 module.exports = async function (req, res, next) {
+    if (req.headers.authorization) {
+        res.status(400).json({ message: "You are not authenticated" })
+        return
+    }
     const token = req.headers.authorization.split(" ")[1]
     const userId = decode(token)
     try {
