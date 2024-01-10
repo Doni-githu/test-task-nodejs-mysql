@@ -16,7 +16,7 @@ app.use('', ProfilesRoutes)
 
 // Запуск сервера
 const startApp = () => {
-  const port = proccess.env.PORT ?? 3000
+  const port = process.env.PORT ?? 3000
   sequelize.sync()
     .then(() => console.log("Connect to MySQL"))
     .catch(err => console.log(err))
