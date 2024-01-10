@@ -1,5 +1,4 @@
 const User = require('../models/user')
-const upload = require('../utils/multer')
 
 
 async function getAllProfilesWithPagination(req, res) {
@@ -22,8 +21,13 @@ async function getAllProfilesWithPagination(req, res) {
 async function updateProfile(req, res) {
     try {
         const { id } = req.params;
+        const user = await User.findByPk(id)
         const { firstName, lastName, email, gender } = req.body;
-        await User.update({ firstName, lastName, email, gender }, { where: { id } });
+        await user.update('firstName', firstName ? firstName : user.dataValues.firstName)
+        await user.update('lastName', lastName ? lastName : user.dataValues.lastName)
+        await user.update('email', email ? email : user.dataValues.email)
+        await user.update('gender', gender ? gender : user.dataValues.gender)
+        await user.save()
         res.sendStatus(204);
     } catch (error) {
         console.error(error);
@@ -58,7 +62,7 @@ async function updateProfilePhoto(req, res) {
     }
 }
 
-module.exports ={ 
+module.exports = {
     updateProfile,
     updateProfilePhoto,
     getAllProfilesWithPagination,
